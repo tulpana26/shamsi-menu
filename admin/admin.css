@@ -1,0 +1,164 @@
+/* ============================================================
+   SHAMSI admin — тёмно-зелёная тема, та же палитра что на сайте
+   ============================================================ */
+:root{
+  --ink:#0b1712; --ink-2:#0e2018; --panel:rgba(242,238,228,.04);
+  --line:rgba(242,238,228,.10); --cream:#f2eee4;
+  --dim:rgba(242,238,228,.66); --faint:rgba(242,238,228,.42);
+  --gold:#c9a55f; --danger:#d9695f;
+  --serif:"Playfair Display", Georgia, serif;
+  --sans:"Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ink); color:var(--cream);
+  font-family:var(--sans); font-weight:400; font-size:15px; line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:radial-gradient(110% 80% at 50% -15%, rgba(42,87,68,.5), transparent 62%);
+}
+a{color:var(--gold)}
+code{font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.92em; color:var(--gold)}
+button{font:inherit; color:inherit; background:none; border:0; cursor:pointer}
+input{font:inherit; color:inherit}
+::selection{background:var(--gold); color:var(--ink)}
+
+/* ---------- вход ---------- */
+.gate{position:relative; z-index:1; min-height:100svh; display:grid; place-items:center; padding:24px}
+.gate__card{
+  width:min(560px,100%); background:linear-gradient(180deg,#13291f,#0c1e17);
+  border:1px solid rgba(201,165,95,.3); border-radius:20px; padding:28px;
+  box-shadow:0 30px 70px rgba(0,0,0,.5);
+}
+.gate__eyebrow{margin:0; font-size:10.5px; font-weight:600; letter-spacing:.24em; text-transform:uppercase; color:var(--gold)}
+.gate__title{margin:8px 0 14px; font-family:var(--serif); font-weight:400; font-size:clamp(24px,4vw,32px)}
+.gate__text{margin:0 0 14px; font-size:13.5px; color:var(--dim); line-height:1.65}
+.gate__steps{margin:0 0 18px; padding-left:20px; font-size:13.5px; color:var(--dim); line-height:1.8}
+.gate__actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+.gate__msg{margin:12px 0 0; font-size:13px; min-height:18px}
+.gate__msg.is-error{color:var(--danger)}
+.gate__msg.is-ok{color:#7fc79b}
+
+/* ---------- поля ---------- */
+.field{display:flex; flex-direction:column; gap:6px}
+.field > span{font-size:10.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--faint)}
+.field input{
+  width:100%; height:44px; padding:0 13px; border-radius:11px;
+  background:rgba(0,0,0,.28); border:1px solid var(--line); color:var(--cream);
+  outline:none; transition:border-color .2s var(--ease), background .2s var(--ease);
+}
+.field input:focus{border-color:rgba(201,165,95,.65); background:rgba(0,0,0,.4)}
+.field--inline{gap:4px}
+
+/* ---------- кнопки ---------- */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  height:46px; padding:0 20px; border-radius:999px;
+  font-size:12px; font-weight:600; letter-spacing:.1em; text-transform:uppercase; line-height:1;
+  transition:background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease), opacity .25s;
+}
+.btn--solid{background:var(--gold); color:#08140f}
+.btn--solid:hover{background:#d6b371}
+.btn--solid[disabled]{opacity:.35; cursor:not-allowed}
+.btn--ghost{border:1px solid rgba(242,238,228,.22)}
+.btn--ghost:hover{border-color:rgba(201,165,95,.6); color:var(--gold)}
+.btn--small{height:38px; padding:0 14px; font-size:11px}
+
+.mini{
+  font-size:11.5px; font-weight:600; letter-spacing:.04em;
+  padding:7px 12px; border-radius:999px; border:1px solid var(--line); color:var(--dim);
+  transition:color .2s, border-color .2s, background .2s;
+}
+.mini:hover{color:var(--cream); border-color:rgba(201,165,95,.5)}
+.mini--danger:hover{color:var(--danger); border-color:rgba(217,105,95,.6)}
+
+/* ---------- каркас ---------- */
+.app{position:relative; z-index:1; min-height:100svh; display:flex; flex-direction:column}
+.bar{
+  position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between;
+  gap:14px; padding:12px clamp(14px,3vw,28px); background:rgba(11,23,18,.92);
+  backdrop-filter:blur(12px); border-bottom:1px solid var(--line); flex-wrap:wrap;
+}
+.bar__left{display:flex; align-items:center; gap:10px}
+.bar__brand{font-family:var(--serif); font-size:16px; letter-spacing:.3em}
+.bar__sep{color:var(--faint)}
+.bar__where{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
+.bar__right{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+.bar__link{font-size:12px; letter-spacing:.06em; color:var(--dim); text-decoration:none}
+.bar__link:hover{color:var(--gold)}
+
+.wrap{flex:1; display:grid; grid-template-columns:minmax(0,1fr); gap:0}
+.side{
+  border-bottom:1px solid var(--line); padding:14px clamp(14px,3vw,28px);
+  display:flex; flex-direction:column; gap:10px;
+}
+.side__label{margin:0; font-size:10px; font-weight:600; letter-spacing:.22em; text-transform:uppercase; color:var(--faint)}
+.side__nav{display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none}
+.side__nav::-webkit-scrollbar{display:none}
+.catbtn{
+  flex:0 0 auto; display:inline-flex; align-items:center; gap:8px;
+  height:40px; padding:0 15px; border-radius:999px; border:1px solid var(--line);
+  font-size:13px; color:var(--dim); white-space:nowrap;
+}
+.catbtn:hover{color:var(--cream); border-color:rgba(201,165,95,.45)}
+.catbtn.is-active{background:var(--gold); color:#08140f; border-color:var(--gold); font-weight:600}
+.catbtn__n{font-size:10.5px; opacity:.6}
+.side__stats{font-size:11.5px; letter-spacing:.08em; color:var(--faint)}
+
+.main{padding:clamp(16px,3vw,30px) clamp(14px,3vw,28px) 60px; min-width:0}
+.head{display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:16px; padding-bottom:14px; border-bottom:1px solid var(--line)}
+.head__title{margin:0; font-family:var(--serif); font-weight:400; font-size:clamp(24px,3.4vw,34px); line-height:1.1}
+.head__count{font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint); padding-bottom:.3em}
+
+/* ---------- карточки позиций ---------- */
+.list{display:grid; gap:14px; grid-template-columns:minmax(0,1fr)}
+.item{
+  display:grid; grid-template-columns:132px minmax(0,1fr); gap:14px;
+  background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:12px;
+}
+.item__photo{
+  position:relative; aspect-ratio:6/5; border-radius:11px; overflow:hidden;
+  background:#132a20; display:grid; place-items:center;
+}
+.item__photo img{width:100%; height:100%; object-fit:cover; display:block}
+.item__photo img[data-empty="1"]{display:none}
+.item__nophoto{font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:rgba(242,238,228,.35); text-align:center; padding:0 6px}
+.item__photo img:not([data-empty="1"]) + .item__nophoto{display:none}
+.item__replace{
+  position:absolute; left:6px; right:6px; bottom:6px;
+  height:32px; border-radius:8px; background:rgba(11,23,18,.82); color:var(--cream);
+  font-size:11px; font-weight:600; letter-spacing:.04em; border:1px solid rgba(242,238,228,.16);
+}
+.item__replace:hover{background:rgba(201,165,95,.9); color:#08140f; border-color:transparent}
+.item__fields{display:flex; flex-direction:column; gap:9px; min-width:0}
+.item__foot{display:flex; gap:8px; flex-wrap:wrap}
+.prices{display:flex; gap:8px; flex-wrap:wrap; align-items:flex-end}
+.prow{display:flex; align-items:flex-end; gap:6px}
+.prow .field{width:86px}
+.prow .field--label{width:62px}
+.prow input{height:40px; padding:0 10px; border-radius:10px}
+.prow__del{width:30px; height:40px; border-radius:10px; border:1px solid var(--line); color:var(--faint)}
+.prow__del:hover{color:var(--danger); border-color:rgba(217,105,95,.5)}
+
+/* ---------- тост ---------- */
+.toast{
+  position:fixed; left:50%; bottom:24px; transform:translateX(-50%);
+  z-index:80; max-width:min(520px,calc(100vw - 32px));
+  background:#13291f; border:1px solid rgba(201,165,95,.45); border-radius:14px;
+  padding:13px 18px; font-size:13px; line-height:1.5; box-shadow:0 18px 44px rgba(0,0,0,.5);
+}
+.toast.is-error{border-color:rgba(217,105,95,.7)}
+.toast a{color:var(--gold)}
+
+/* ---------- планшет ---------- */
+@media (min-width:820px){
+  .wrap{grid-template-columns:minmax(0,1fr)}
+  .item{grid-template-columns:160px minmax(0,1fr)}
+  .list{grid-template-columns:repeat(auto-fill,minmax(420px,1fr))}
+}
+@media (min-width:1280px){
+  .item{grid-template-columns:176px minmax(0,1fr)}
+}

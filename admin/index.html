@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>SHAMSI — панель меню</title>
+<meta name="theme-color" content="#0b1712">
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="admin.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23123024'/%3E%3Cpath d='M16 23V12M11.5 16.5a4.5 4.5 0 1 1 9 0' stroke='%23C9A55F' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+</head>
+<body>
+
+<!-- вход -->
+<section class="gate" id="gate">
+  <div class="gate__card">
+    <p class="gate__eyebrow">SHAMSI · панель</p>
+    <h1 class="gate__title">Доступ к меню</h1>
+    <p class="gate__text">
+      Панель работает прямо с репозиторием <code id="repoLabel">tulpana26/shamsi-menu</code>.
+      Нужен токен GitHub с правом «Contents: Read and write» только на этот репозиторий.
+      Токен хранится в этом браузере и никуда не отправляется, кроме api.github.com.
+    </p>
+    <ol class="gate__steps">
+      <li>Откройте <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">создание токена</a> (fine-grained).</li>
+      <li>Repository access → Only select repositories → <b>shamsi-menu</b>.</li>
+      <li>Permissions → Repository permissions → <b>Contents: Read and write</b>.</li>
+      <li>Срок действия — на ваш выбор, например 90 дней.</li>
+    </ol>
+    <label class="field">
+      <span>Токен</span>
+      <input id="tokenInput" type="password" placeholder="github_pat_..." autocomplete="off" spellcheck="false">
+    </label>
+    <div class="gate__actions">
+      <button class="btn btn--solid" id="loginBtn">Войти</button>
+      <button class="btn btn--ghost" id="forgetBtn" hidden>Забыть токен</button>
+    </div>
+    <p class="gate__msg" id="gateMsg"></p>
+  </div>
+</section>
+
+<!-- панель -->
+<div class="app" id="app" hidden>
+  <header class="bar">
+    <div class="bar__left">
+      <span class="bar__brand">SHAMSI</span>
+      <span class="bar__sep">/</span>
+      <span class="bar__where">меню</span>
+    </div>
+    <div class="bar__right">
+      <a class="bar__link" id="siteLink" target="_blank" rel="noopener">Открыть сайт</a>
+      <button class="btn btn--small btn--ghost" id="reloadBtn">Обновить</button>
+      <button class="btn btn--small btn--solid" id="saveBtn" disabled>Сохранить</button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <aside class="side">
+      <p class="side__label">Разделы</p>
+      <nav class="side__nav" id="catNav"></nav>
+      <div class="side__stats" id="stats"></div>
+    </aside>
+
+    <main class="main" id="main"></main>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+</div>
+
+<template id="itemTpl">
+  <article class="item">
+    <div class="item__photo">
+      <img alt="" loading="lazy">
+      <div class="item__nophoto">нет фото</div>
+      <button class="item__replace" type="button">Заменить фото</button>
+      <input type="file" accept="image/*" hidden>
+    </div>
+    <div class="item__fields">
+      <label class="field field--inline">
+        <span>Название</span>
+        <input data-f="name" type="text">
+      </label>
+      <label class="field field--inline">
+        <span>Описание</span>
+        <input data-f="desc" type="text" placeholder="необязательно">
+      </label>
+      <div class="prices" data-role="prices"></div>
+      <div class="item__foot">
+        <button class="mini" data-act="addprice" type="button">+ размер</button>
+        <button class="mini mini--danger" data-act="remove" type="button">Удалить позицию</button>
+      </div>
+    </div>
+  </article>
+</template>
+
+<script src="../assets/menu-data.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
