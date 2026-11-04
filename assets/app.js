@@ -1,25 +1,28 @@
 /* ============================================================
-   SHAMSI web menu — rendering, scrollspy, search, QR
+   SHAMSI web menu
+   сайдбар слева + показывается только текущий раздел
    данные: assets/menu-data.js (window.MENU_DATA)
    ============================================================ */
 (function () {
   'use strict';
 
   const DATA = window.MENU_DATA || { categories: [] };
+  const CATS = DATA.categories || [];
   const $ = (s, r) => (r || document).querySelector(s);
   const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const fmt = (n) => new Intl.NumberFormat('ru-RU').format(n);
+  const pad2 = (n) => String(n).padStart(2, '0');
 
   $('#year').textContent = new Date().getFullYear();
 
-  /* ---------------- render menu ---------------- */
-  const menuEl = $('#menu');
-  const railTrack = $('#railTrack');
-  const pad2 = (n) => String(n).padStart(2, '0');
+  const sidebarNav = $('#sidebarNav');
+  const chipsTrack = $('#chipsTrack');
+  const content = $('#content');
 
+  /* ---------- цена ---------- */
   const priceHtml = (prices) =>
-    prices
+    (prices || [])
       .map(
         (p) =>
           `<span class="price">${p.label ? `<span class="price__label">${esc(p.label)}</span>` : ''}` +
@@ -27,76 +30,143 @@
       )
       .join('');
 
-  DATA.categories.forEach((cat, i) => {
-    const section = document.createElement('section');
-    section.className = 'section';
-    section.id = cat.id;
-    section.innerHTML = `
-      <div class="section__head">
-        <span class="section__num">${pad2(i + 1)}</span>
-        <div>
-          <h2 class="section__title">${esc(cat.name)}</h2>
-          ${cat.note ? `<p class="section__note">${esc(cat.note)}</p>` : ''}
-        </div>
-      </div>
-      <div class="section__rule"></div>
-      <ul class="items">
-        ${cat.items
-          .map(
-            (it) => `
-          <li class="item">
-            <span class="item__name">${esc(it.name)}</span>
-            <span class="item__prices">${priceHtml(it.prices)}</span>
-          </li>`
-          )
-          .join('')}
-      </ul>`;
-    menuEl.appendChild(section);
+  /* ---------- навигация: сайдбар + чипы ---------- */
+  CATS.forEach((cat, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'nav-item';
+    btn.type = 'button';
+    btn.dataset.slug = cat.id;
+    btn.innerHTML = `<span class="nav-item__num">${pad2(i + 1)}</span>
+      <span class="nav-item__name">${esc(cat.name)}</span>
+      <span class="nav-item__count">${cat.items.length}</span>`;
+    sidebarNav.appendChild(btn);
 
     const chip = document.createElement('a');
     chip.className = 'chip';
-    chip.href = '#' + cat.id;
+    chip.href = '#/' + cat.id;
+    chip.dataset.slug = cat.id;
     chip.textContent = cat.name;
-    chip.dataset.target = cat.id;
-    railTrack.appendChild(chip);
+    chipsTrack.appendChild(chip);
   });
 
-  /* ---------------- reveal on scroll ---------------- */
-  /* ---------------- sticky bar + scrollspy ---------------- */
-  const topbar = $('#topbar');
-  const addStuck = () => topbar.classList.toggle('is-stuck', window.scrollY > 24);
-  addStuck();
-  window.addEventListener('scroll', addStuck, { passive: true });
+  /* ---------- карточка позиции ---------- */
+  const cardHtml = (item) => {
+    const media = item.photo
+      ? `<img src="assets/photos/${esc(item.photo)}.jpg" alt="${esc(item.name)}" width="800" height="800" loading="lazy" decoding="async">`
+      : `<div class="card__placeholder" aria-hidden="true">${esc(item.name.slice(0, 1).toUpperCase())}</div>`;
+    return `<article class="card">
+      <div class="card__media">${media}</div>
+      <div class="card__body">
+        <h3 class="card__name">${esc(item.name)}</h3>
+        <div class="card__prices">${priceHtml(item.prices)}</div>
+      </div>
+    </article>`;
+  };
 
-  const chips = $$('.chip');
-  const spy = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        const id = e.target.id;
-        chips.forEach((c) => c.classList.toggle('is-active', c.dataset.target === id));
-        const active = chips.find((c) => c.dataset.target === id);
-        if (active) {
-          const box = railTrack;
-          const left = active.offsetLeft - box.clientWidth / 2 + active.clientWidth / 2;
-          box.scrollTo({ left, behavior: 'smooth' });
-        }
-      });
-    },
-    { rootMargin: '-45% 0px -50% 0px' }
-  );
-  $$('.section').forEach((s) => spy.observe(s));
+  /* ---------- отрисовка раздела ---------- */
+  let current = null;
 
-  /* ---------------- search ---------------- */
+  function render(slug, opts) {
+    const idx = Math.max(0, CATS.findIndex((c) => c.id === slug));
+    const cat = CATS[idx];
+    if (!cat) return;
+    const prev = CATS[idx - 1];
+    const next = CATS[idx + 1];
+
+    content.innerHTML = `
+      <header class="cat-head">
+        <div>
+          <span class="cat-head__num">${pad2(idx + 1)} / ${pad2(CATS.length)}</span>
+          <h1 class="cat-head__title">${esc(cat.name)}</h1>
+        </div>
+        <span class="cat-head__count">${cat.items.length} ${plural(cat.items.length)}</span>
+      </header>
+      <div class="grid">${cat.items.map(cardHtml).join('')}</div>
+      <nav class="pager" aria-label="Соседние разделы">
+        ${prev ? `<button class="pager__btn" data-go="${esc(prev.id)}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 6l-6 6 6 6"/></svg>
+            <span>${esc(prev.name)}</span></button>` : '<span></span>'}
+        ${next ? `<button class="pager__btn" data-go="${esc(next.id)}">
+            <span>${esc(next.name)}</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6l6 6-6 6"/></svg></button>` : '<span></span>'}
+      </nav>`;
+
+    // состояние навигации
+    $$('.nav-item').forEach((b) => b.classList.toggle('is-active', b.dataset.slug === cat.id));
+    $$('.chip').forEach((c) => c.classList.toggle('is-active', c.dataset.slug === cat.id));
+
+    current = cat.id;
+    document.title = cat.name + ' — SHAMSI';
+
+    if (opts && opts.scroll !== false) window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // активный чип — в центр ленты
+    const chip = $$('.chip').find((c) => c.dataset.slug === cat.id);
+    if (chip && chipsTrack.offsetParent !== null) {
+      const left = chip.offsetLeft - chipsTrack.clientWidth / 2 + chip.clientWidth / 2;
+      chipsTrack.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
+    }
+  }
+
+  const plural = (n) => {
+    const m = n % 10, h = n % 100;
+    if (m === 1 && h !== 11) return 'позиция';
+    if (m >= 2 && m <= 4 && (h < 12 || h > 14)) return 'позиции';
+    return 'позиций';
+  };
+
+  /* ---------- маршрутизация через hash ---------- */
+  const slugFromHash = () => (location.hash.replace(/^#\/?/, '') || CATS[0].id);
+
+  function goto(slug, push) {
+    if (push) location.hash = '#/' + slug;
+    else render(slug);
+  }
+
+  sidebarNav.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-slug]');
+    if (b) goto(b.dataset.slug, true);
+  });
+
+  content.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-go]');
+    if (b) goto(b.dataset.go, true);
+  });
+
+  window.addEventListener('hashchange', () => render(slugFromHash()));
+
+  /* ---------- поиск ---------- */
   const searchSheet = $('#searchSheet');
   const searchInput = $('#searchInput');
   const searchResults = $('#searchResults');
-  let index = [];
-  DATA.categories.forEach((cat) =>
-    cat.items.forEach((it) =>
-      index.push({ cat: cat.name, catId: cat.id, name: it.name, prices: it.prices })
-    )
-  );
+
+  const index = [];
+  CATS.forEach((cat) => cat.items.forEach((it) => index.push({ cat: cat.name, catId: cat.id, name: it.name, prices: it.prices })));
+
+  const summarize = (prices) => {
+    const vals = (prices || []).map((p) => p.value);
+    if (!vals.length) return '';
+    return Math.min.apply(null, vals) === Math.max.apply(null, vals)
+      ? fmt(vals[0]) + ' ₽'
+      : fmt(Math.min.apply(null, vals)) + '–' + fmt(Math.max.apply(null, vals)) + ' ₽';
+  };
+
+  function renderResults(q) {
+    const query = q.trim().toLowerCase();
+    const rows = !query ? index.slice(0, 9) : index.filter((it) => it.name.toLowerCase().includes(query) || it.cat.toLowerCase().includes(query));
+    if (!rows.length) {
+      searchResults.innerHTML = '<p class="sr-empty">ничего не нашлось — спросите бариста</p>';
+      return;
+    }
+    let lastCat = null, html = '';
+    rows.slice(0, 40).forEach((it) => {
+      if (it.cat !== lastCat) { html += `<p class="sr-cat">${esc(it.cat)}</p>`; lastCat = it.cat; }
+      html += `<button class="sr-item" data-jump="${esc(it.catId)}">
+        <span class="sr-item__name">${esc(it.name)}</span>
+        <span class="sr-item__price">${summarize(it.prices)}</span></button>`;
+    });
+    searchResults.innerHTML = html;
+  }
 
   const openSearch = () => {
     searchSheet.hidden = false;
@@ -110,56 +180,21 @@
     document.body.style.overflow = '';
   };
 
-  const summarize = (prices) => {
-    const vals = prices.map((p) => p.value);
-    return Math.min.apply(null, vals) === Math.max.apply(null, vals)
-      ? fmt(vals[0]) + ' ₽'
-      : fmt(Math.min.apply(null, vals)) + '–' + fmt(Math.max.apply(null, vals)) + ' ₽';
-  };
-
-  function renderResults(q) {
-    const query = q.trim().toLowerCase();
-    const rows = !query
-      ? index.slice(0, 8)
-      : index.filter((it) => it.name.toLowerCase().includes(query) || it.cat.toLowerCase().includes(query));
-    if (!rows.length) {
-      searchResults.innerHTML = '<p class="sr-empty">ничего не нашлось — спросите бариста</p>';
-      return;
-    }
-    let lastCat = null;
-    let html = '';
-    rows.slice(0, 40).forEach((it) => {
-      if (it.cat !== lastCat) {
-        html += `<p class="sr-cat">${esc(it.cat)}</p>`;
-        lastCat = it.cat;
-      }
-      html += `<button class="sr-item" data-jump="${esc(it.catId)}">
-        <span class="sr-item__name">${esc(it.name)}</span>
-        <span class="sr-item__price">${summarize(it.prices)}</span>
-      </button>`;
-    });
-    searchResults.innerHTML = html;
-  }
-
   $('#searchBtn').addEventListener('click', openSearch);
   searchInput.addEventListener('input', (e) => renderResults(e.target.value));
   searchResults.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-jump]');
-    if (!btn) return;
-    const id = btn.getAttribute('data-jump');
+    const b = e.target.closest('[data-jump]');
+    if (!b) return;
     closeSheets();
-    const target = document.getElementById(id);
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    goto(b.dataset.jump, true);
   });
 
-  /* ---------------- QR ---------------- */
+  /* ---------- QR ---------- */
   const qrSheet = $('#qrSheet');
   const qrFrame = $('#qrFrame');
   const qrUrl = $('#qrUrl');
   const menuUrl = location.origin + location.pathname;
 
-  // QR рисуем через qrcode-generator (SVG — чёткий на печати), с двумя CDN
-  // и резервным вариантом через картинку-сервис, если оба CDN недоступны.
   const LOADERS = [
     'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js',
     'https://unpkg.com/qrcode-generator@1.4.4/qrcode.js'
@@ -176,12 +211,10 @@
   }
 
   function qrSvg(url) {
-    // qrcode-generator API: typeNumber 0 = авто, уровень коррекции M
     const qr = window.qrcode(0, 'M');
     qr.addData(url);
     qr.make();
     const svg = qr.createSvgTag({ cellSize: 8, margin: 0, scalable: true });
-    // тон-в-тон с темой: тёмно-зелёные модули вместо чистого чёрного
     return svg.replace(/fill="#000000"/g, 'fill="#0b1712"').replace(/fill="#000"/g, 'fill="#0b1712"');
   }
 
@@ -189,37 +222,22 @@
     qrFrame.innerHTML = '<div class="qr__spinner">готовим код…</div>';
     if (!window.qrcode) {
       for (const src of LOADERS) {
-        try {
-          await loadScript(src);
-          if (window.qrcode) break;
-        } catch (e) {
-          /* следующий CDN */
-        }
+        try { await loadScript(src); if (window.qrcode) break; } catch (e) { /* следующий CDN */ }
       }
     }
     if (window.qrcode) {
-      try {
-        qrFrame.innerHTML = qrSvg(menuUrl);
-        return;
-      } catch (e) {
-        /* падаем в резервный вариант */
-      }
+      try { qrFrame.innerHTML = qrSvg(menuUrl); return; } catch (e) { /* резерв ниже */ }
     }
-    // резерв: сервис картинок (тоже сканируется)
     qrFrame.innerHTML =
       '<img alt="QR-код меню" src="https://api.qrserver.com/v1/create-qr-code/?size=560x560&margin=8&data=' +
-      encodeURIComponent(menuUrl) +
-      '">';
+      encodeURIComponent(menuUrl) + '">';
   }
 
   $('#qrBtn').addEventListener('click', () => {
     qrUrl.textContent = menuUrl.replace(/^https?:\/\//, '');
     qrSheet.hidden = false;
     document.body.style.overflow = 'hidden';
-    if (!qrFrame.dataset.ready) {
-      drawQr();
-      qrFrame.dataset.ready = '1';
-    }
+    if (!qrFrame.dataset.ready) { drawQr(); qrFrame.dataset.ready = '1'; }
   });
 
   $('#copyLink').addEventListener('click', async (e) => {
@@ -229,20 +247,23 @@
       const t = btn.textContent;
       btn.textContent = 'Скопировано';
       setTimeout(() => (btn.textContent = t), 1600);
-    } catch (err) {
-      qrUrl.textContent = menuUrl;
-    }
+    } catch (err) { qrUrl.textContent = menuUrl; }
   });
 
   $('#printQr').addEventListener('click', () => window.print());
 
-  /* ---------------- sheet closing ---------------- */
+  /* ---------- закрытие модалок / хоткеи ---------- */
   $$('[data-close]').forEach((el) => el.addEventListener('click', closeSheets));
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeSheets();
-    if (e.key === '/' && (document.activeElement.tagName !== 'INPUT')) {
-      e.preventDefault();
-      openSearch();
+    if (e.key === '/' && document.activeElement.tagName !== 'INPUT') { e.preventDefault(); openSearch(); }
+    if (searchSheet.hidden && qrSheet.hidden) {
+      const i = CATS.findIndex((c) => c.id === current);
+      if (e.key === 'ArrowRight' && CATS[i + 1]) goto(CATS[i + 1].id, true);
+      if (e.key === 'ArrowLeft' && CATS[i - 1]) goto(CATS[i - 1].id, true);
     }
   });
+
+  /* ---------- старт ---------- */
+  render(slugFromHash(), { scroll: false });
 })();

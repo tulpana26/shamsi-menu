@@ -17,12 +17,12 @@
 <meta name="apple-mobile-web-app-title" content="SHAMSI">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="apple-touch-icon" href="assets/icon-192.png">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%237A1D2D'/%3E%3Cpath d='M16 23V12M11.5 16.5a4.5 4.5 0 1 1 9 0' stroke='%23F3EFE7' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23123024'/%3E%3Cpath d='M16 23V12M11.5 16.5a4.5 4.5 0 1 1 9 0' stroke='%23C9A55F' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 </head>
 <body>
 
 <header class="topbar" id="topbar">
-  <a class="brand" href="#top" aria-label="SHAMSI — в начало">
+  <a class="brand" href="#" aria-label="SHAMSI — меню">
     <svg class="brand__mark" viewBox="0 0 40 40" aria-hidden="true">
       <path d="M20 33V16" />
       <path d="M20 16c0-5.5-4.5-10-10-10M20 16c0-5.5 4.5-10 10-10" />
@@ -30,7 +30,7 @@
     </svg>
     <span class="brand__name">SHAMSI</span>
   </a>
-  <nav class="topbar__actions">
+  <div class="topbar__actions">
     <button class="icon-btn" id="searchBtn" aria-label="Поиск по меню">
       <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
     </button>
@@ -38,38 +38,29 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="6" height="6" rx="1"/><rect x="14.5" y="3.5" width="6" height="6" rx="1"/><rect x="3.5" y="14.5" width="6" height="6" rx="1"/><path d="M14.5 14.5h2.5v2.5h-2.5zM19 19h1.5M19 14.5h1.5M14.5 20.5h1"/></svg>
       <span>QR</span>
     </button>
-  </nav>
+  </div>
 </header>
 
-<main id="top">
+<div class="shell">
 
-  <section class="hero">
-    <img class="hero__arabic" src="assets/calligraphy.png" alt="" aria-hidden="true" width="1411" height="457">
-    <div class="hero__inner">
-      <p class="hero__eyebrow">шамси · кофейня</p>
-      <h1 class="hero__title">Меню</h1>
-      <p class="hero__sub">кофе · выпечка · тепло</p>
-      <div class="hero__rule"></div>
-      <p class="hero__hint">выберите категорию или пролистайте</p>
+  <!-- левый сайдбар с разделами -->
+  <aside class="sidebar" id="sidebar" aria-label="Разделы меню">
+    <p class="sidebar__label">Разделы</p>
+    <nav class="sidebar__nav" id="sidebarNav"></nav>
+    <div class="sidebar__foot">
+      <img class="sidebar__calli" src="assets/calligraphy.png" alt="" width="1411" height="457">
+      <p class="sidebar__note">кофе · выпечка · тепло</p>
     </div>
-    <a class="hero__scroll" href="#menu" aria-label="К меню">
-      <span></span>
-    </a>
-  </section>
+  </aside>
 
-  <nav class="rail" id="rail" aria-label="Категории меню">
-    <div class="rail__track" id="railTrack"></div>
+  <!-- лента разделов на телефоне -->
+  <nav class="chips" id="chips" aria-label="Разделы меню">
+    <div class="chips__track" id="chipsTrack"></div>
   </nav>
 
-  <div class="menu" id="menu"></div>
+  <main class="content" id="content" tabindex="-1"></main>
 
-  <section class="outro">
-    <img class="outro__arabic" src="assets/calligraphy.png" alt="" aria-hidden="true" width="1411" height="457">
-    <p class="outro__line">Спасибо, что заходите</p>
-    <p class="outro__small">цены указаны в рублях · стоп-лист уточняйте у бариста</p>
-  </section>
-
-</main>
+</div>
 
 <footer class="footer">
   <span class="footer__brand">SHAMSI</span>
