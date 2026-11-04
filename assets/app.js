@@ -174,11 +174,11 @@
   const qrUrl = $('#qrUrl');
   const menuUrl = location.origin + location.pathname;
 
+  // QR рисуем через qrcode-generator (SVG — чёткий на печати), с двумя CDN
+  // и резервным вариантом через картинку-сервис, если оба CDN недоступны.
   const LOADERS = [
-    // primary CDN
-    'https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js',
-    // fallback CDN
-    'https://unpkg.com/qrcode@1.5.3/build/qrcode.min.js'
+    'https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js',
+    'https://unpkg.com/qrcode-generator@1.4.4/qrcode.js'
   ];
 
   function loadScript(src) {
@@ -191,27 +191,35 @@
     });
   }
 
+  function qrSvg(url) {
+    // qrcode-generator API: typeNumber 0 = авто, уровень коррекции M
+    const qr = window.qrcode(0, 'M');
+    qr.addData(url);
+    qr.make();
+    return qr.createSvgTag({ cellSize: 8, margin: 0, scalable: true });
+  }
+
   async function drawQr() {
     qrFrame.innerHTML = '<div class="qr__spinner">готовим код…</div>';
-    for (const src of LOADERS) {
-      try {
-        if (!window.QRCode) await loadScript(src);
-        if (!window.QRCode) continue;
-        qrFrame.innerHTML = '';
-        const canvas = document.createElement('canvas');
-        qrFrame.appendChild(canvas);
-        await window.QRCode.toCanvas(canvas, menuUrl, {
-          width: 560,
-          margin: 0,
-          errorCorrectionLevel: 'M',
-          color: { dark: '#170d10', light: '#fffaf1' }
-        });
-        return;
-      } catch (err) {
-        /* try next loader */
+    if (!window.qrcode) {
+      for (const src of LOADERS) {
+        try {
+          await loadScript(src);
+          if (window.qrcode) break;
+        } catch (e) {
+          /* следующий CDN */
+        }
       }
     }
-    // last resort: image service (still scannable)
+    if (window.qrcode) {
+      try {
+        qrFrame.innerHTML = qrSvg(menuUrl);
+        return;
+      } catch (e) {
+        /* падаем в резервный вариант */
+      }
+    }
+    // резерв: сервис картинок (тоже сканируется)
     qrFrame.innerHTML =
       '<img alt="QR-код меню" src="https://api.qrserver.com/v1/create-qr-code/?size=560x560&margin=8&data=' +
       encodeURIComponent(menuUrl) +
