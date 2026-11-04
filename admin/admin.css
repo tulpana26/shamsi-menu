@@ -83,6 +83,7 @@ input{font:inherit; color:inherit}
   backdrop-filter:blur(12px); border-bottom:1px solid var(--line); flex-wrap:wrap;
 }
 .bar__left{display:flex; align-items:center; gap:10px}
+.bar__logo{display:block; height:26px; width:auto}
 .bar__brand{font-family:var(--serif); font-size:16px; letter-spacing:.3em}
 .bar__sep{color:var(--faint)}
 .bar__where{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--faint)}
