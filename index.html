@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SHAMSI — меню</title>
 <meta name="description" content="Меню кофейни SHAMSI: кофе, холодные напитки, лимонады, чай.">
-<meta name="theme-color" content="#170d10">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0b1712">
+<link rel="preload" href="assets/fonts/PlayfairDisplay-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/Manrope-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/fonts.css">
 <link rel="stylesheet" href="assets/style.css">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -43,7 +43,9 @@
 <main id="top">
 
   <section class="hero">
-    <span class="hero__arabic" aria-hidden="true">شمسی</span>
+    <svg class="hero__arabic" viewBox="0 0 320 110" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <text x="160" y="82" text-anchor="middle" textLength="300" lengthAdjust="spacingAndGlyphs" font-size="86">شمسی</text>
+    </svg>
     <div class="hero__inner">
       <p class="hero__eyebrow">шамси · кофейня</p>
       <h1 class="hero__title">Меню</h1>
@@ -63,7 +65,9 @@
   <div class="menu" id="menu"></div>
 
   <section class="outro">
-    <p class="outro__arabic" aria-hidden="true">شمسی</p>
+    <svg class="outro__arabic" viewBox="0 0 320 110" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <text x="160" y="82" text-anchor="middle" textLength="300" lengthAdjust="spacingAndGlyphs" font-size="86">شمسی</text>
+    </svg>
     <p class="outro__line">Спасибо, что заходите</p>
     <p class="outro__small">цены указаны в рублях · стоп-лист уточняйте у бариста</p>
   </section>

@@ -62,22 +62,6 @@
   });
 
   /* ---------------- reveal on scroll ---------------- */
-  const revealIO = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('is-in');
-          revealIO.unobserve(e.target);
-        }
-      });
-    },
-    { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
-  );
-  $$('.item').forEach((el, i) => {
-    el.style.transitionDelay = (i % 6) * 45 + 'ms';
-    revealIO.observe(el);
-  });
-
   /* ---------------- sticky bar + scrollspy ---------------- */
   const topbar = $('#topbar');
   const addStuck = () => topbar.classList.toggle('is-stuck', window.scrollY > 24);
@@ -196,7 +180,9 @@
     const qr = window.qrcode(0, 'M');
     qr.addData(url);
     qr.make();
-    return qr.createSvgTag({ cellSize: 8, margin: 0, scalable: true });
+    const svg = qr.createSvgTag({ cellSize: 8, margin: 0, scalable: true });
+    // тон-в-тон с темой: тёмно-зелёные модули вместо чистого чёрного
+    return svg.replace(/fill="#000000"/g, 'fill="#0b1712"').replace(/fill="#000"/g, 'fill="#0b1712"');
   }
 
   async function drawQr() {
