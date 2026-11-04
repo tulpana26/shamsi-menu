@@ -8,7 +8,6 @@ window.MENU_DATA = {
     {
       "id": "hot-coffee",
       "name": "Горячий кофе",
-      "note": "классика на зерне собственной обжарки",
       "items": [
         {
           "name": "Американо",
@@ -68,7 +67,6 @@ window.MENU_DATA = {
     {
       "id": "cold-coffee",
       "name": "Холодный кофе",
-      "note": "на льду и взбитый",
       "items": [
         {
           "name": "Айс Латте",
@@ -130,7 +128,6 @@ window.MENU_DATA = {
     {
       "id": "tonics",
       "name": "Тоники",
-      "note": "эспрессо и тоник",
       "items": [
         {
           "name": "Гранатовый тоник",
@@ -163,7 +160,6 @@ window.MENU_DATA = {
     {
       "id": "new",
       "name": "Новинки",
-      "note": "сезонная карта",
       "items": [
         {
           "name": "Апероль",
@@ -218,7 +214,6 @@ window.MENU_DATA = {
     {
       "id": "lemonades",
       "name": "Лимонады",
-      "note": "свежие, на цитрусах и ягодах",
       "items": [
         {
           "name": "Мохито",
@@ -281,7 +276,6 @@ window.MENU_DATA = {
     {
       "id": "signature-lemonade",
       "name": "Авторский лимонад",
-      "note": "рецепты бара",
       "items": [
         {
           "name": "Закат",
@@ -304,7 +298,6 @@ window.MENU_DATA = {
     {
       "id": "fresh",
       "name": "Фреш",
-      "note": "выжимаем при вас",
       "items": [
         {
           "name": "Яблоко",
@@ -350,7 +343,6 @@ window.MENU_DATA = {
     {
       "id": "tea",
       "name": "Чай",
-      "note": "листовой, в чайнике",
       "items": [
         {
           "name": "Черный",
@@ -409,7 +401,6 @@ window.MENU_DATA = {
     {
       "id": "signature-tea",
       "name": "Авторский чай",
-      "note": "с ягодами и травами",
       "items": [
         {
           "name": "Облепиховый",
