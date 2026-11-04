@@ -113,17 +113,14 @@ img{max-width:100%; display:block}
   padding:118px var(--pad) 66px;
   overflow:hidden;
 }
-/* arabic wordmark: SVG so it always fits the frame, whatever font the device has */
+/* вязь из фирменного логотипа: PNG с прозрачностью, всегда вписан в кадр */
 .hero__arabic{
   position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
   width:min(94vw, 1020px); height:auto;
   pointer-events:none; user-select:none;
-  opacity:.055;
+  opacity:.085;
 }
-.hero__arabic text{
-  font-family:var(--serif);
-  fill:var(--cream);
-}
+.hero__arabic{display:block; max-width:100%;}
 .hero__inner{position:relative; text-align:center; max-width:760px}
 .hero__eyebrow{
   margin:0 0 24px;
@@ -257,9 +254,9 @@ img{max-width:100%; display:block}
 /* ---------------- outro / footer ---------------- */
 .outro{text-align:center; padding:clamp(70px,12vw,140px) var(--pad) 40px; position:relative}
 .outro__arabic{
-  display:block; width:min(60vw,340px); height:auto; margin:0 auto 10px; opacity:.09;
+  display:block; width:min(60vw,340px); height:auto; margin:0 auto 10px; opacity:.12;
 }
-.outro__arabic text{font-family:var(--serif); fill:var(--cream)}
+.outro__arabic{display:block; max-width:100%}
 .outro__line{font-family:var(--serif); font-size:clamp(23px,3.2vw,32px); margin:0; color:#f6f2e9}
 .outro__small{
   margin:14px 0 0; font-family:var(--sans); font-size:10.5px; font-weight:500;
