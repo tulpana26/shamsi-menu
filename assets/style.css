@@ -15,7 +15,7 @@
   --serif:"Playfair Display", Georgia, "Times New Roman", serif;
   --sans:"Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --pad:clamp(16px, 4vw, 44px);
-  --side:260px;
+  --side:288px;
   --ease:cubic-bezier(.22,.61,.36,1);
 }
 
@@ -170,7 +170,7 @@ img{display:block; max-width:100%}
 .card__media{
   position:relative;
   width:100%;
-  aspect-ratio:1 / 1;        /* одинаковая ширина и высота у всех фото */
+  aspect-ratio:6 / 5;        /* та же пропорция, что у файлов: без обрезки и полос */
   overflow:hidden;
   background:#132a20;
 }
@@ -301,42 +301,48 @@ img{display:block; max-width:100%}
   .chips{display:none}
 
   .sidebar{
-    display:flex; flex-direction:column; gap:18px;
+    display:flex; flex-direction:column; gap:20px;
     position:sticky; top:66px;
     height:calc(100svh - 66px);
-    padding:24px 14px 20px;
+    max-height:calc(100svh - 66px);
+    padding:26px 16px 22px;
     border-right:1px solid var(--line);
-    overflow-y:auto; scrollbar-width:thin;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(201,165,95,.5) transparent;
   }
-  .sidebar::-webkit-scrollbar{width:6px}
-  .sidebar::-webkit-scrollbar-thumb{background:rgba(242,238,228,.14); border-radius:3px}
+  .sidebar::-webkit-scrollbar{width:8px}
+  .sidebar::-webkit-scrollbar-thumb{background:rgba(201,165,95,.45); border-radius:4px}
+  .sidebar::-webkit-scrollbar-track{background:rgba(242,238,228,.05)}
 
   .sidebar__label{
-    margin:0 0 2px 12px;
-    font-family:var(--sans); font-size:10px; font-weight:600;
-    letter-spacing:.24em; line-height:1; text-transform:uppercase;
-    color:rgba(242,238,228,.34);
+    margin:0 0 4px 12px;
+    font-family:var(--sans); font-size:11.5px; font-weight:600;
+    letter-spacing:.2em; line-height:1; text-transform:uppercase;
+    color:rgba(242,238,228,.42);
   }
   .sidebar__nav{display:flex; flex-direction:column; gap:2px}
   .nav-item{
-    display:flex; align-items:center; gap:10px;
-    padding:10px 12px; border-radius:11px;
-    font-family:var(--sans); font-size:14px; font-weight:400; line-height:1.3;
+    display:flex; align-items:center; gap:11px;
+    padding:13px 13px; border-radius:12px;
+    font-family:var(--sans); font-size:17px; font-weight:400; line-height:1.25;
     color:var(--cream-dim); text-align:left;
     border:1px solid transparent;
     transition:color .25s var(--ease), background .25s var(--ease), border-color .25s var(--ease);
   }
   .nav-item:hover{color:var(--cream); background:rgba(242,238,228,.05)}
   .nav-item__num{
-    flex:0 0 auto; width:18px;
-    font-size:10px; font-weight:600; letter-spacing:.08em;
-    color:rgba(242,238,228,.3);
+    flex:0 0 auto; width:20px;
+    font-size:11.5px; font-weight:600; letter-spacing:.06em;
+    color:rgba(242,238,228,.34);
   }
   .nav-item__name{flex:1 1 auto}
   .nav-item__count{
-    flex:0 0 auto;
-    font-size:10.5px; font-weight:600; letter-spacing:.04em;
-    color:rgba(242,238,228,.28);
+    flex:0 0 auto; min-width:20px; text-align:right;
+    font-size:12px; font-weight:600; letter-spacing:.02em;
+    color:rgba(242,238,228,.32);
   }
   .nav-item.is-active{
     color:#0b1712; background:var(--gold); border-color:var(--gold); font-weight:600;
@@ -357,7 +363,7 @@ img{display:block; max-width:100%}
 }
 
 @media (min-width: 1200px){
-  :root{--side:272px}
+  :root{--side:308px}
   .grid{grid-template-columns:repeat(auto-fill, minmax(210px,1fr))}
 }
 
