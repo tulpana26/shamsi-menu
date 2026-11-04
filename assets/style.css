@@ -360,6 +360,57 @@ img{max-width:100%; display:block}
   .pill-btn span{display:none}
 }
 
+/* ---------------- tablet: two-column menu, bigger touch targets ---------------- */
+@media (min-width: 760px){
+  :root{ --pad: clamp(28px, 4.5vw, 72px) }
+
+  .topbar{ padding:16px var(--pad) }
+  .topbar.is-stuck{ padding:12px var(--pad) }
+  .icon-btn{ width:44px; height:44px }
+  .icon-btn svg{ width:18px; height:18px }
+  .pill-btn{ height:44px; padding:0 20px 0 16px; font-size:12.5px }
+  .brand__mark{ width:30px; height:30px }
+  .brand__name{ font-size:21px; letter-spacing:.36em }
+
+  .hero{ min-height:min(78svh, 720px); padding:130px var(--pad) 60px }
+  .hero__title{ font-size:clamp(96px, 13vw, 190px) }
+  .hero__rule{ height:52px; margin-top:30px }
+
+  .rail{ padding:12px 0 14px }
+  .rail__track{ gap:10px; padding:2px var(--pad) 8px }
+  .chip{ height:44px; padding:0 22px; font-size:13.5px }
+
+  .menu{ padding-top:10px }
+  .section{ padding:clamp(40px,5vw,70px) 0 10px }
+  .section__title{ font-size:clamp(34px,3.6vw,50px) }
+  .section__rule{ margin:30px 0 2px }
+
+  /* two columns of items — reads like a printed menu on a tablet */
+  .items{
+    display:grid; grid-template-columns:1fr 1fr;
+    column-gap:clamp(36px,5vw,84px);
+  }
+  .item{ padding:19px 0 }
+  .item__name{ font-size:clamp(23px,2.1vw,28px) }
+  .price__value{ font-size:clamp(20px,1.9vw,25px) }
+
+  .outro{ padding-top:clamp(80px,10vw,150px) }
+}
+
+/* tablet landscape / short screens: keep the hero from eating the viewport */
+@media (orientation: landscape) and (max-height: 900px){
+  .hero{ min-height:auto; padding:110px var(--pad) 44px }
+  .hero__title{ font-size:clamp(72px, 8.5vw, 130px) }
+  .hero__rule{ height:34px; margin-top:20px }
+  .hero__hint{ margin-top:18px }
+  .hero__scroll{ display:none }
+}
+
+/* very wide (tablet pro / desktop): three columns keep rows short */
+@media (min-width: 1500px){
+  :root{ --maxw:1360px }
+}
+
 /* ---------------- print (QR card) ---------------- */
 @media print{
   body{background:#fff; color:#1a1a1a}
