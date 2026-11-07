@@ -50,11 +50,27 @@
     font-size:clamp(21px,6.2vw,34px); line-height:1.1; text-transform:uppercase; letter-spacing:.02em;
   }
   .qr{
+    position:relative; overflow:hidden;
     margin-top:6px; display:flex; flex-direction:column; align-items:center; gap:14px;
     padding:clamp(16px,4.4vw,24px); border-radius:22px; width:100%;
-    background:rgba(242,238,228,.05); border:1px solid rgba(201,165,95,.28);
+    background:linear-gradient(160deg, rgba(201,165,95,.10), rgba(242,238,228,.03));
+    border:1px solid rgba(201,165,95,.42);
+    box-shadow:0 0 0 1px rgba(201,165,95,.10), 0 18px 40px rgba(0,0,0,.35);
   }
-  .qr img{width:clamp(126px,36vw,172px); height:auto; display:block; border-radius:12px; background:#0b1712}
+  /* блик, проходящий по карточке с QR */
+  .qr::after{
+    content:""; position:absolute; top:-40%; bottom:-40%; width:45%;
+    background:linear-gradient(100deg, transparent, rgba(255,232,180,.16) 45%, rgba(255,232,180,.28) 50%, rgba(255,232,180,.16) 55%, transparent);
+    transform:translateX(-220%) skewX(-12deg); pointer-events:none;
+    animation:shine 7s ease-in-out infinite;
+  }
+  @keyframes shine{0%,72%{transform:translateX(-220%) skewX(-12deg)}92%,100%{transform:translateX(320%) skewX(-12deg)}}
+  @media (prefers-reduced-motion: reduce){ .qr::after{animation:none; opacity:0} }
+  .qr img{
+    width:clamp(126px,36vw,172px); height:auto; display:block; border-radius:14px;
+    background:#0b1712;
+    filter:drop-shadow(0 0 14px rgba(239,207,138,.35));
+  }
   .qr p{margin:0; font-size:clamp(12px,3.2vw,14px); line-height:1.5; color:rgba(242,238,228,.74); max-width:34ch}
   .qr b{color:#f2eee4; font-weight:600}
   .back{
