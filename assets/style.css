@@ -392,3 +392,7 @@ img{display:block; max-width:100%}
   .qr__frame{padding:0; width:70mm; height:70mm; background:#fff}
   .qr__eyebrow, .qr__title{color:#101010}
 }
+
+/* акция «7 баллов = напиток в подарок» */
+.pill-btn--gold{border-color:rgba(201,165,95,.55); color:var(--gold)}
+.pill-btn--gold:hover{background:var(--gold); color:var(--ink)}

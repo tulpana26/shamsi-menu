@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SHAMSI — 7 баллов в подарок</title>
+<meta name="theme-color" content="#0b1712">
+<meta name="description" content="7 баллов = кофе, бамбл или тоник в подарок. Копите баллы в боте SHAMSI.">
+<link rel="stylesheet" href="../assets/fonts.css">
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23123024'/%3E%3Cpath d='M16 23V12M11.5 16.5a4.5 4.5 0 1 1 9 0' stroke='%23C9A55F' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root{--gold-hi:#e7c87a}
+  html,body{margin:0;height:100%}
+  body.promo{
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgba(201,165,95,.14), transparent 60%),
+      radial-gradient(90% 60% at 100% 110%, rgba(18,48,36,.9), transparent 70%),
+      #0b1712;
+    color:var(--cream); min-height:100dvh; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:clamp(14px,2.6vw,26px);
+    padding:clamp(18px,4vw,40px); box-sizing:border-box; text-align:center;
+    font-family:var(--sans); overflow-x:hidden;
+  }
+  .promo__brand img{width:clamp(96px,16vw,140px); height:auto; opacity:.95}
+  .promo__lead{
+    font-family:var(--serif); color:var(--gold-hi); margin:0;
+    font-size:clamp(42px,11vw,92px); line-height:.98; letter-spacing:.01em;
+  }
+  .promo__drinks{display:flex; gap:clamp(10px,3vw,26px); align-items:flex-start; justify-content:center; flex-wrap:nowrap}
+  .promo__drink{width:clamp(84px,23vw,168px)}
+  .promo__drink img{
+    width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:50%;
+    border:1px solid rgba(201,165,95,.45); box-shadow:0 0 0 6px rgba(201,165,95,.07), 0 18px 40px rgba(0,0,0,.45);
+    background:#0e2018;
+  }
+  .promo__drink figcaption{
+    margin-top:8px; font-size:clamp(13px,3.4vw,20px); letter-spacing:.14em;
+    text-transform:uppercase; color:var(--cream-dim);
+  }
+  .promo__gift{
+    font-family:var(--serif); color:var(--gold-hi); margin:0;
+    font-size:clamp(30px,8vw,64px); line-height:1; text-transform:uppercase; letter-spacing:.02em;
+  }
+  .promo__qr{display:flex; flex-direction:column; align-items:center; gap:10px}
+  .promo__qr img{
+    width:clamp(150px,34vw,230px); height:auto; border-radius:18px;
+    box-shadow:0 16px 40px rgba(0,0,0,.45);
+  }
+  .promo__hint{margin:0; color:var(--cream-dim); font-size:clamp(12px,3vw,16px); line-height:1.45; max-width:32ch}
+  .promo__hint b{color:var(--cream); font-weight:600}
+  .promo__back{
+    color:var(--cream-faint); text-decoration:none; font-size:13px; letter-spacing:.08em;
+    text-transform:uppercase; border-bottom:1px solid rgba(242,238,228,.18); padding-bottom:3px;
+  }
+  .promo__back:hover{color:var(--gold)}
+  @media (orientation:landscape) and (min-width:720px){
+    body.promo{display:grid; grid-template-columns:1fr auto; align-items:center; gap:clamp(20px,4vw,56px); text-align:left; padding:clamp(20px,3vw,48px)}
+    .promo__left{display:flex; flex-direction:column; gap:clamp(10px,1.6vw,20px); align-items:flex-start}
+    .promo__qr{justify-self:end}
+    .promo__hint{text-align:left}
+  }
+</style>
+</head>
+<body class="promo">
+  <div class="promo__brand"><img src="../assets/logo.png" alt="SHAMSI"></div>
+
+  <div class="promo__left">
+    <h1 class="promo__lead">7 баллов =</h1>
+    <div class="promo__drinks">
+      <figure class="promo__drink" style="margin:0">
+        <img src="../assets/photos/p01-03.jpg" alt="Кофе">
+        <figcaption>кофе</figcaption>
+      </figure>
+      <figure class="promo__drink" style="margin:0">
+        <img src="../assets/photos/p02-05.jpg" alt="Бамбл">
+        <figcaption>бамбл</figcaption>
+      </figure>
+      <figure class="promo__drink" style="margin:0">
+        <img src="../assets/photos/tonic.jpg" alt="Тоник">
+        <figcaption>тоник</figcaption>
+      </figure>
+    </div>
+    <h2 class="promo__gift">в подарок!</h2>
+  </div>
+
+  <div class="promo__qr">
+    <img src="../assets/promo-qr.png" alt="QR-код бота SHAMSI" width="490" height="490">
+    <p class="promo__hint">Сканируй QR, заходи в бота <b>@shamsiclientsbot</b> и копи баллы с каждой покупки.</p>
+    <a class="promo__back" href="../">← меню</a>
+  </div>
+</body>
+</html>
