@@ -81,14 +81,16 @@
   /* планшеты и горизонтальные телефоны: текст слева, QR справа */
   @media (min-width:760px){
     .card{
-      max-width:1040px; display:grid; grid-template-columns:1fr auto; align-items:center;
-      text-align:left; gap:clamp(24px,4vw,56px);
+      /* планшет: info и QR стоят рядом и центрируются как одна пара */
+      max-width:1040px; display:grid; grid-template-columns:max-content max-content;
+      justify-content:center; align-items:center;
+      text-align:left; column-gap:clamp(16px,2.5vw,32px); row-gap:clamp(12px,2vw,20px);
     }
-    .card__info{display:flex; flex-direction:column; gap:clamp(12px,2vw,20px); align-items:flex-start}
+    .card__info{display:flex; flex-direction:column; gap:clamp(12px,2vw,20px); align-items:flex-start; justify-self:end}
     .drinks{justify-content:flex-start}
     .drinks li{max-width:118px}
     .brand{grid-column:1 / -1; grid-row:1; justify-self:start}
-    .qr{grid-column:2; grid-row:2; width:auto; justify-self:end; max-width:300px}
+    .qr{grid-column:2; grid-row:2; width:auto; justify-self:start; max-width:300px}
     .card__info{grid-column:1; grid-row:2}
     .back{grid-column:1 / -1; grid-row:3; justify-self:start; margin-top:8px}
   }
