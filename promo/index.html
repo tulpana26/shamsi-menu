@@ -9,6 +9,41 @@
 <link rel="stylesheet" href="../assets/fonts.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23123024'/%3E%3Cpath d='M16 23V12M11.5 16.5a4.5 4.5 0 1 1 9 0' stroke='%23C9A55F' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
+  /* jetons nécessaires à l'en-tête repris du menu */
+  :root{
+    --pad:clamp(14px,4vw,28px); --serif:"Playfair Display",Georgia,serif;
+    --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --cream:#f2eee4; --gold:#c9a55f; --ink:#0b1712;
+    --ease:cubic-bezier(.4,0,.2,1);
+  }
+  .topbar{position:sticky; top:0; z-index:40;
+  display:flex; align-items:center; justify-content:space-between;
+  height:66px; padding:0 var(--pad);
+  background:rgba(11,23,18,.86);
+  backdrop-filter:blur(14px) saturate(120%);
+  border-bottom:1px solid var(--line);}
+  .brand{display:inline-flex; align-items:center; gap:10px}
+  .brand__logo{display:block; height:clamp(30px,4.4vw,40px); width:auto}
+  .brand__name{font-family:var(--serif); font-size:18px; font-weight:500;
+  letter-spacing:.32em; line-height:1; padding-left:.1em;}
+  .topbar__actions{display:flex; align-items:center; gap:9px}
+  .icon-btn{display:inline-flex; align-items:center; justify-content:center;
+  width:40px; height:40px; border-radius:50%;
+  border:1px solid rgba(242,238,228,.16);
+  transition:border-color .3s var(--ease), background .3s var(--ease);}
+  .icon-btn svg{width:17px; height:17px; fill:none; stroke:var(--cream); stroke-width:1.5; stroke-linecap:round}
+  .icon-btn:hover{border-color:rgba(201,165,95,.6); background:rgba(201,165,95,.1)}
+  .pill-btn{display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  height:40px; padding:0 16px; border-radius:999px;
+  border:1px solid rgba(201,165,95,.5); color:var(--gold);
+  font-family:var(--sans); font-size:12px; font-weight:600;
+  letter-spacing:.16em; line-height:1; text-transform:uppercase;
+  transition:background .3s var(--ease), color .3s var(--ease);}
+  .pill-btn svg{width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.5}
+  .pill-btn:hover{background:var(--gold); color:var(--ink)}
+  .pill-btn--gold{border-color:rgba(201,165,95,.55); color:var(--gold)}
+  .pill-btn--gold:hover{background:var(--gold); color:var(--ink)}
+
   *,*::before,*::after{box-sizing:border-box}
   html,body{margin:0;padding:0;background:#0b1712}
   html{-webkit-text-size-adjust:100%}
@@ -89,7 +124,6 @@
     .card__info{display:flex; flex-direction:column; gap:clamp(12px,2vw,20px); align-items:flex-start; justify-self:end}
     .drinks{justify-content:flex-start}
     .drinks li{max-width:118px}
-    .brand{grid-column:1 / -1; grid-row:1; justify-self:start}
     .qr{grid-column:2; grid-row:2; width:auto; justify-self:start; max-width:300px}
     .card__info{grid-column:1; grid-row:2}
     .back{grid-column:1 / -1; grid-row:3; justify-self:start; margin-top:8px}
@@ -97,10 +131,18 @@
 </style>
 </head>
 <body>
-  <main class="card">
-    <div class="brand"><img src="../assets/logo.png" alt="SHAMSI"></div>
+  <header class="topbar" id="topbar">
+    <a class="brand" href="../" aria-label="SHAMSI — меню">
+      <picture>
+        <source srcset="../assets/logo.webp" type="image/webp">
+        <img class="brand__logo" src="../assets/logo.png" alt="SHAMSI" width="120" height="86">
+      </picture>
+    </a>
+    <!-- кнопки «Акция» и «QR» отсюда убраны -->
+  </header>
 
-    <div class="card__info">
+  <main class="card">
+<div class="card__info">
       <p class="eyebrow">Акция</p>
       <h1 class="lead">7 баллов =</h1>
       <ul class="drinks">
