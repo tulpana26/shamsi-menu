@@ -126,6 +126,13 @@
     .card__info{grid-column:1; grid-row:2}
     .back{grid-column:1 / -1; grid-row:3; justify-self:start; margin-top:8px}
   }
+  /* la page était un flex en ligne centré : la barre se retrouvait à côté de la
+     carte. On passe en colonne : barre en haut sur toute la largeur, carte centrée
+     dans l'espace restant. */
+  body{display:flex; flex-direction:column; align-items:center; justify-content:flex-start}
+  .topbar{flex:0 0 auto; align-self:stretch; width:auto;
+    margin:calc(-18px - env(safe-area-inset-top)) -18px 0}
+  .card{flex:1 1 auto; margin:auto 0}
 </style>
 </head>
 <body>
