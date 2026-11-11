@@ -9,13 +9,8 @@
 <link rel="stylesheet" href="../assets/fonts.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23123024'/%3E%3Cpath d='M16 23V12M11.5 16.5a4.5 4.5 0 1 1 9 0' stroke='%23C9A55F' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
-  /* jetons nécessaires à l'en-tête repris du menu */
-  :root{
-    --pad:clamp(14px,4vw,28px); --serif:"Playfair Display",Georgia,serif;
-    --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-    --cream:#f2eee4; --gold:#c9a55f; --ink:#0b1712;
-    --ease:cubic-bezier(.4,0,.2,1);
-  }
+  /* en-tête repris tel quel du menu */
+  :root{--ink:#0b1712; --line:rgba(242,238,228,.09); --cream:#f2eee4; --gold:#c9a55f; --serif:"Playfair Display", Georgia, "Times New Roman", serif; --sans:"Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; --pad:clamp(16px, 4vw, 44px); --ease:cubic-bezier(.22,.61,.36,1)}
   .topbar{position:sticky; top:0; z-index:40;
   display:flex; align-items:center; justify-content:space-between;
   height:66px; padding:0 var(--pad);
@@ -43,6 +38,9 @@
   .pill-btn:hover{background:var(--gold); color:var(--ink)}
   .pill-btn--gold{border-color:rgba(201,165,95,.55); color:var(--gold)}
   .pill-btn--gold:hover{background:var(--gold); color:var(--ink)}
+@media print{
+    .topbar, .shell, .footer, .qr__actions, .sheet__close, .qr__note, .qr__url{display:none !important}
+  }
 
   *,*::before,*::after{box-sizing:border-box}
   html,body{margin:0;padding:0;background:#0b1712}
@@ -138,7 +136,11 @@
         <img class="brand__logo" src="../assets/logo.png" alt="SHAMSI" width="120" height="86">
       </picture>
     </a>
-    <!-- кнопки «Акция» и «QR» отсюда убраны -->
+    <div class="topbar__actions">
+      <button class="icon-btn" id="searchBtn" aria-label="Поиск по меню">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+      </button>
+    </div>
   </header>
 
   <main class="card">
